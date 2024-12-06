@@ -22,6 +22,30 @@ function Form() {
     ), [])
 
 
+    const [currentPage, setCurrentPage] = useState(1);
+    const recordsPerPage = 5
+    const lastIndex = currentPage * recordsPerPage;
+    const fastIndex = lastIndex - recordsPerPage;
+    const records = filteredData.slice(fastIndex, lastIndex);
+    const nPages = Math.ceil(filteredData.length / recordsPerPage);
+    const numbers = [...Array(nPages + 1).keys()].slice(1)
+
+
+    const handleNextButton = () => {
+        // console.log(currentPage, "currnt page", nPages, "nPgae")
+        if (currentPage < nPages) {
+            setCurrentPage(currentPage + 1)
+        }
+    }
+    const handlePrevButton = () => {
+        if (currentPage !== 1) {
+            setCurrentPage(currentPage - 1)
+        }
+    }
+    const handleCurrentPage = (n) => {
+        setCurrentPage(n)
+    }
+
     const handleFilterdData = () => {
         let firstNameFilteredData, lastNameFilteredData, emailFilteredData
         console.log('firstName in hadle ', firstName)
@@ -29,6 +53,7 @@ function Form() {
         console.log('email in hadle ', email)
         if (lastName.length == 0) {
             alert("Enter last name")
+            return
         }
 
         if (firstName.length > 0) {
@@ -59,7 +84,9 @@ function Form() {
             (emailFilteredData && emailFilteredData.length > 0 ? emailFilteredData.includes(item) : [lastNameFilteredData])
         )
         setFilteredData(uniqueFilteredData)
-
+    }
+    const handleResetData = () => {
+        setFilteredData(data)
     }
 
 
@@ -81,7 +108,7 @@ function Form() {
                         </div>
                         <div className='flex flex-col  ml-3'>
                             <label >Date of birth</label>
-                            <input type='text' className='border ' />
+                            <input type='date' className='border ' />
                         </div>
                     </div>
                     <div className='flex'>
@@ -109,7 +136,19 @@ function Form() {
                         </div>
                         <div className='flex flex-col  ml-3'>
                             <label >State</label>
-                            <input type='dropdown' className='border w-32' />
+                            <select id="state" name="state" className='border w-32'>
+                                <option value="Ontario">Ontrio</option>
+                                <option value="British Columbia">British Columbia</option>
+                                <option value="Quebec">Quebec</option>
+                                <option value="Alberta">Alberta</option>
+                                <option value="New Brunswick">New Brunswick	</option>
+                                <option value="Yukon">Yukon</option>
+                                <option value="Manitoba">Manitoba</option>
+                                <option value="Saskatchewan	">Saskatchewan	</option>
+                                <option value="Prince Edward Island">Prince Edward Island</option>
+                                <option value="Newfoundland and Labrador">Newfoundland and Labrador	</option>
+                            </select>
+
                         </div>
                         <div className='flex flex-col  ml-3'>
                             <label >Zip code</label>
@@ -121,9 +160,36 @@ function Form() {
             </div>
             <div className='mt-4'>
                 <button onClick={handleFilterdData} className='border px-3 py-1 rounded-md text-blue-800 font-medium' > Search</button>
+                <button onClick={handleResetData} className='border px-3 py-1 ml-20 rounded-md text-blue-800 font-medium' > Reset</button>
             </div>
         </div>
-        <Table filteredData={filteredData} />
+        <div className='flex items-center w-full'>
+            <div className='flex m-5 text-center items-center w-1/2'>
+                <div>
+                    <a href='#' onClick={handlePrevButton} className='page-link'>Prev</a>
+                </div>
+                <div className='flex text-center'>
+                    {
+                        numbers.map((n, i) => (
+                            <div key={i} >
+                                <a className='border p-2 mx-1 ' href='#' onClick={() => handleCurrentPage(n)}>{n}</a>
+                            </div>
+                        ))
+                    }
+                </div>
+                <div>
+                    <a href='#' className='page-link' onClick={handleNextButton}>next</a>
+                </div>
+            </div>
+            <div className='flex m-5 pl-64 text-center items-center w-1/2'>
+                <div>
+                    Showing <span>{currentPage}</span> of <span>{nPages}</span>
+                </div>
+            </div>
+        </div>
+
+        <Table filteredData={records} />
+
     </>
     )
 }

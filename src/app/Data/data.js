@@ -1,6 +1,26 @@
 
 export const data = [
-
+    {
+        firstName: "Shivam",
+        lastName: "Rana",
+        address: "245 Pine Avenue",
+        city: "Guelph",
+        state: "Ontario",
+        zipcode: "N1H 4J6",
+        email: "shivamrana@example.com",
+        phone: "519-555-1212",
+        dob: "1987-02-14"
+    }, {
+        firstName: "Mike",
+        lastName: "Rana",
+        address: "245 Pine Avenue",
+        city: "Guelph",
+        state: "Ontario",
+        zipcode: "N1H 4J6",
+        email: "mike.rana@example.com",
+        phone: "519-555-1212",
+        dob: "1987-02-14"
+    },
     {
         firstName: "Noah",
         lastName: "Bennett",
